@@ -1,0 +1,6 @@
+@MFO.CatalogService.API_HostAddress = http://localhost:5180
+
+GET {{MFO.CatalogService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
