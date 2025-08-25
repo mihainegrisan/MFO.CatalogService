@@ -8,9 +8,11 @@ public class Product : AuditableEntity
 
     public required string Name { get; set; }
 
-    public required int Price { get; set; }
+    public required decimal Price { get; set; }
 
     public string? Description { get; set; }
+
+    public bool IsActive { get; set; }
 
     // public string[] ImageUrls { get; set; }
 
