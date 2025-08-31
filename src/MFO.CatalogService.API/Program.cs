@@ -1,4 +1,4 @@
-using MFO.CatalogService.Application.Mapping;
+using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
@@ -31,6 +31,8 @@ builder.Services.AddOpenApiDocument(options =>
         };
     };
 });
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
 
 builder.Services.AddControllers();
 
