@@ -27,5 +27,9 @@ public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Resul
         {
             return Result.Fail(new NotFoundError($"Brand with ID {request.Id} not found."));
         }
+
+        var brandDto = _mapper.Map<GetBrandDto>(brand);
+
+        return Result.Ok(brandDto);
     }
 }
