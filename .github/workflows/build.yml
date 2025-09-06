@@ -21,6 +21,8 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore MFO.CatalogService.sln
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         run: dotnet build MFO.CatalogService.sln --no-restore --configuration Release
