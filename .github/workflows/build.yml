@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: ["*"]   # run on pushes to any branch
+  pull_request:
+    branches: ["main"] # run on PRs targeting main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0"
+
+      - name: Restore dependencies
+        run: dotnet restore MFO.CatalogService.sln
+
+      - name: Build
+        run: dotnet build MFO.CatalogService.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test MFO.CatalogService.sln --no-build --configuration Release --verbosity normal
