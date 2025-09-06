@@ -7,20 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Products\Validators\**" />
-    <EmbeddedResource Remove="Products\Validators\**" />
-    <None Remove="Products\Validators\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Products\Commands\CreateProduct\" />
-    <Folder Include="Products\Commands\UpdateProduct\" />
-    <Folder Include="Products\Queries\GetProductById\" />
-    <Folder Include="Products\Queries\GetProducts\" />
+    <Compile Remove="Features\Products\Validators\**" />
+    <EmbeddedResource Remove="Features\Products\Validators\**" />
+    <None Remove="Features\Products\Validators\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="FluentResults" Version="4.0.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
   </ItemGroup>
 
