@@ -7,11 +7,13 @@ public sealed record GetProductDto
 {
     public required Guid ProductId { get; init; }
 
+    public string SKU { get; set; } = null!;
+
     public required string Name { get; init; }
 
-    public required decimal Price { get; init; }
-
     public string? Description { get; init; }
+
+    public required decimal Price { get; init; }
 
     public bool IsActive { get; init; }
 
