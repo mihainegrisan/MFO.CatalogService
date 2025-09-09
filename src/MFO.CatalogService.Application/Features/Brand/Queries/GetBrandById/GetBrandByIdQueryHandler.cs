@@ -7,7 +7,7 @@ using MFO.CatalogService.Domain.Errors;
 
 namespace MFO.CatalogService.Application.Features.Brand.Queries.GetBrandById;
 
-public sealed record GetBrandByIdQuery(int Id) : IRequest<Result<GetBrandDto>>;
+public sealed record GetBrandByIdQuery(Guid Id) : IRequest<Result<GetBrandDto>>;
 
 public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Result<GetBrandDto>>
 {

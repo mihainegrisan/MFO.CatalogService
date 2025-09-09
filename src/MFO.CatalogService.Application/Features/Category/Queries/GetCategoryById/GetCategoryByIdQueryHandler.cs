@@ -7,7 +7,7 @@ using MFO.CatalogService.Domain.Errors;
 
 namespace MFO.CatalogService.Application.Features.Category.Queries.GetCategoryById;
 
-public sealed record GetCategoryByIdQuery(int Id) : IRequest<Result<GetCategoryDto>>;
+public sealed record GetCategoryByIdQuery(Guid Id) : IRequest<Result<GetCategoryDto>>;
 
 public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, Result<GetCategoryDto>>
 {

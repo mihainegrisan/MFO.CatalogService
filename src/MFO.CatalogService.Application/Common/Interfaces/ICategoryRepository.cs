@@ -4,7 +4,7 @@ namespace MFO.CatalogService.Application.Common.Interfaces;
 
 public interface ICategoryRepository
 {
-    Task<Category?> GetCategoryByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Category?> GetCategoryByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task<List<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken);
 
