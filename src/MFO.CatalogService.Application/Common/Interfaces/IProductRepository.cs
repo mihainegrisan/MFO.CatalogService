@@ -4,7 +4,7 @@ namespace MFO.CatalogService.Application.Common.Interfaces;
 
 public interface IProductRepository
 {
-    Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task<List<Product>> GetAllProductsAsync(CancellationToken cancellationToken);
 

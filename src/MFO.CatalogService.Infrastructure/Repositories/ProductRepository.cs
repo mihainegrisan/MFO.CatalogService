@@ -14,7 +14,7 @@ public class ProductRepository : IProductRepository
         _db = db;
     }
 
-    public async Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Products
             .FindAsync([id], cancellationToken);
 
