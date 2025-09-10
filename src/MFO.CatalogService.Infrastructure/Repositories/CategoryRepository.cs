@@ -40,4 +40,7 @@ public class CategoryRepository : ICategoryRepository
         await _db.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken)
+        => await _db.Categories.AnyAsync(category => category.Name == name, cancellationToken);
 }

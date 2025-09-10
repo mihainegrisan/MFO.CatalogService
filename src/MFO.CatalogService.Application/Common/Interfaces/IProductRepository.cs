@@ -15,4 +15,6 @@ public interface IProductRepository
     Task<Product> SetProductActiveStateAsync(Product product, bool isActive, CancellationToken cancellationToken);
 
     Task<bool> DeleteProductAsync(Product product, CancellationToken cancellationToken);
+
+    Task<bool> ExistsBySkuAsync(string sku, CancellationToken cancellationToken);
 }

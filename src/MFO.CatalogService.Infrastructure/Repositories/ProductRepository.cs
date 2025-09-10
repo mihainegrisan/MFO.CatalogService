@@ -51,4 +51,7 @@ public class ProductRepository : IProductRepository
         await _db.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public Task<bool> ExistsBySkuAsync(string sku, CancellationToken cancellationToken)
+        => _db.Products.AnyAsync(product => product.SKU == sku, cancellationToken);
 }

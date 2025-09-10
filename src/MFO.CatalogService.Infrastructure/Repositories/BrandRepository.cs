@@ -40,4 +40,7 @@ public class BrandRepository : IBrandRepository
         await _db.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken)
+        => await _db.Brands.AnyAsync(brand => brand.Name == name, cancellationToken);
 }
