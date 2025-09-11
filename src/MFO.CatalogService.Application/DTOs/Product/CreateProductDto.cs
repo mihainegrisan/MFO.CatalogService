@@ -4,8 +4,6 @@ public sealed record CreateProductDto
 {
     public required string Name { get; init; }
 
-    public string SKU { get; set; } = null!;
-
     public string? Description { get; init; }
 
     public required decimal Price { get; init; }
