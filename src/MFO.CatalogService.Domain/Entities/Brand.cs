@@ -8,6 +8,8 @@ public class Brand : AuditableEntity
 
     public required string Name { get; set; }
 
+    public required string Code { get; set; }
+
     public string? Description { get; set; } = null;
 
     public ICollection<Product>? Products { get; set; }
