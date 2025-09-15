@@ -2,7 +2,7 @@
 
 public sealed record UpdateCategoryDto
 {
-    public Guid CategoryId { get; set; }
+    public required Guid CategoryId { get; set; }
 
     public required string Name { get; set; }
 
