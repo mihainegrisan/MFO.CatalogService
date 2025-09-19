@@ -8,6 +8,7 @@ public class CatalogDbContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Brand> Brands { get; set; }
+    public DbSet<Company> Companies { get; set; }
 
     public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options)
     {
@@ -16,6 +17,8 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Product>()
             .HasIndex(p => p.SKU)
             .IsUnique()
