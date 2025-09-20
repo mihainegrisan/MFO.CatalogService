@@ -32,11 +32,13 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         {
             return Result.Fail(new NotFoundError($"Product with ID {request.UpdateProductDto.ProductId} was not found."));
         }
+        
+        _mapper.Map(request.UpdateProductDto, existingProduct);
 
-        existingProduct.Name = request.UpdateProductDto.Name;
-        existingProduct.Description = request.UpdateProductDto.Description;
-        existingProduct.Price = request.UpdateProductDto.Price;
-        existingProduct.IsActive = request.UpdateProductDto.IsActive;
+        //existingProduct.Name = request.UpdateProductDto.Name;
+        //existingProduct.Description = request.UpdateProductDto.Description;
+        //existingProduct.Price = request.UpdateProductDto.Price;
+        //existingProduct.IsActive = request.UpdateProductDto.IsActive;
 
         // TODO: Extract into a validation service
 
@@ -45,7 +47,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         {
             return Result.Fail(new NotFoundError($"Category with ID {request.UpdateProductDto.CategoryId} was not found."));
         }
-        existingProduct.CategoryId = request.UpdateProductDto.CategoryId;
+        //existingProduct.CategoryId = request.UpdateProductDto.CategoryId;
         existingProduct.Category = category;
 
         var brand = await _brandRepository.GetBrandByIdAsync(request.UpdateProductDto.BrandId, cancellationToken);
@@ -53,7 +55,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         {
             return Result.Fail(new NotFoundError($"Brand with ID {request.UpdateProductDto.BrandId} was not found."));
         }
-        existingProduct.BrandId = request.UpdateProductDto.BrandId;
+        //existingProduct.BrandId = request.UpdateProductDto.BrandId;
         existingProduct.Brand = brand;
 
         // TODO: Automate auditable fields population
