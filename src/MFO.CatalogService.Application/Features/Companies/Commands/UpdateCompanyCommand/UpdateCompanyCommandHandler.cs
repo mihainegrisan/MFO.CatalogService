@@ -30,11 +30,13 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand,
             return Result.Fail(new NotFoundError($"Company with ID {request.UpdateCompanyDto.CompanyId} was not found."));
         }
 
-        var company = _mapper.Map<Company>(existingCompany);
+        _mapper.Map(request.UpdateCompanyDto, existingCompany);
+        existingCompany.LastModifiedBy = "system";
+        existingCompany.LastModifiedDate = DateTime.UtcNow;
 
-        await _companyRepository.UpdateCompanyAsync(company, cancellationToken);
+        await _companyRepository.UpdateCompanyAsync(existingCompany, cancellationToken);
 
-        var companyDto = _mapper.Map<GetCompanyDto>(company);
+        var companyDto = _mapper.Map<GetCompanyDto>(existingCompany);
 
         return Result.Ok(companyDto);
     }
