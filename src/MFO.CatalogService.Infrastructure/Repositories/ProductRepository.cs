@@ -18,7 +18,7 @@ public class ProductRepository : IProductRepository
         => await _db.Products
             .FindAsync([id], cancellationToken);
 
-    public async Task<List<Product>> GetAllProductsAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Product>> GetAllProductsAsync(CancellationToken cancellationToken)
         => await _db.Products
             .AsNoTracking()
             .ToListAsync(cancellationToken);

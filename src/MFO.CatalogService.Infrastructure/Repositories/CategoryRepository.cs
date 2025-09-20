@@ -17,7 +17,7 @@ public class CategoryRepository : ICategoryRepository
     public async Task<Category?> GetCategoryByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Categories.FindAsync([id], cancellationToken);
 
-    public async Task<List<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken)
         => await _db.Categories.ToListAsync(cancellationToken);
 
     public async Task<Category> AddCategoryAsync(Category category, CancellationToken cancellationToken)

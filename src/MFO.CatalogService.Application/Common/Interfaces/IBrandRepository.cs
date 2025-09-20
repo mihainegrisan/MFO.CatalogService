@@ -6,7 +6,7 @@ public interface IBrandRepository
 {
     Task<Brand?> GetBrandByIdAsync(Guid id, CancellationToken cancellationToken);
 
-    Task<List<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken);
 
     Task<Brand> AddBrandAsync(Brand brand, CancellationToken cancellationToken);
 

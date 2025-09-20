@@ -17,7 +17,7 @@ public class BrandRepository : IBrandRepository
     public async Task<Brand?> GetBrandByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Brands.FindAsync([id], cancellationToken);
 
-    public async Task<List<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken)
         => await _db.Brands.ToListAsync(cancellationToken);
 
     public async Task<Brand> AddBrandAsync(Brand brand, CancellationToken cancellationToken)

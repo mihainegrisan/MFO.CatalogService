@@ -6,7 +6,7 @@ public interface IProductRepository
 {
     Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken);
 
-    Task<List<Product>> GetAllProductsAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Product>> GetAllProductsAsync(CancellationToken cancellationToken);
 
     Task<Product> AddProductAsync(Product product, CancellationToken cancellationToken);
 
