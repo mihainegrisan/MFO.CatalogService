@@ -1,4 +1,5 @@
 using MFO.CatalogService.Application.Common.Mapping;
+using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
 using MFO.CatalogService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
@@ -31,6 +32,8 @@ builder.Services.AddOpenApiDocument(options =>
         };
     };
 });
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductByIdQueryHandler).Assembly));
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
 
