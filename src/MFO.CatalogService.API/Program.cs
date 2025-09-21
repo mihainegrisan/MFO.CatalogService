@@ -5,6 +5,7 @@ using MFO.CatalogService.Infrastructure.Persistence;
 using MFO.CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,15 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogContext")));
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("Service", "MFO.CatalogService")
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,4 +78,4 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
