@@ -12,7 +12,7 @@ public interface IBrandRepository
 
     Task<Brand> UpdateBrandAsync(Brand brand, CancellationToken cancellationToken);
 
-    Task<bool> DeleteBrandAsync(Brand brand, CancellationToken cancellationToken);
+    Task<bool> DeleteBrandAsync(Guid brandId, CancellationToken cancellationToken);
 
     Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken);
 }

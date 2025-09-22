@@ -14,5 +14,5 @@ public interface ICompanyRepository
 
     Task<Company> SetCompanyActiveStateAsync(Company company, bool isActive, CancellationToken cancellationToken);
 
-    Task<bool> DeleteCompanyAsync(Company company, CancellationToken cancellationToken);
+    Task<bool> DeleteCompanyAsync(Guid companyId, CancellationToken cancellationToken);
 }
