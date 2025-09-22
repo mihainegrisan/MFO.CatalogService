@@ -12,7 +12,7 @@ public interface IProductRepository
 
     Task<Product> UpdateProductAsync(Product product, CancellationToken cancellationToken);
 
-    Task<Product> SetProductActiveStateAsync(Product product, bool isActive, CancellationToken cancellationToken);
+    Task<Product?> SetProductActiveStateAsync(Guid productId, bool isActive, CancellationToken cancellationToken);
 
     Task<bool> DeleteProductAsync(Guid productId, CancellationToken cancellationToken);
 

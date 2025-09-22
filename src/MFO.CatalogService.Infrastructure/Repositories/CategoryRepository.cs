@@ -34,8 +34,14 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task<bool> DeleteCategoryAsync(Category category, CancellationToken cancellationToken)
+    public async Task<bool> DeleteCategoryAsync(Guid categoryId, CancellationToken cancellationToken)
     {
+        var category = await _db.Categories.FindAsync([categoryId], cancellationToken);
+        if (category is null)
+        {
+            return false;
+        }
+
         _db.Categories.Remove(category);
         await _db.SaveChangesAsync(cancellationToken);
         return true;
