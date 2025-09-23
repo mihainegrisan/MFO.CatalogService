@@ -18,5 +18,11 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 
         RuleFor(c => c.CreateProductDto.Price)
             .NotEmpty().WithMessage("Price is required.");
+
+        RuleFor(c => c.CreateProductDto.CategoryId)
+            .NotEmpty().WithMessage("CategoryId is required.");
+
+        RuleFor(c => c.CreateProductDto.BrandId)
+            .NotEmpty().WithMessage("BrandId is required.");
     }
 }
