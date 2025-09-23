@@ -3,10 +3,9 @@ using FluentResults;
 using MediatR;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.DTOs.Company;
-using MFO.CatalogService.Domain.Entities;
 using MFO.CatalogService.Domain.Errors;
 
-namespace MFO.CatalogService.Application.Features.Companies.Commands.UpdateCompanyCommand;
+namespace MFO.CatalogService.Application.Features.Companies.Commands.UpdateCompany;
 
 public sealed record UpdateCompanyCommand(UpdateCompanyDto UpdateCompanyDto) : IRequest<Result<GetCompanyDto>>;
 

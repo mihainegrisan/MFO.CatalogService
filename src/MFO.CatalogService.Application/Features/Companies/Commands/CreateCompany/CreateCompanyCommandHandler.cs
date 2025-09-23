@@ -5,7 +5,7 @@ using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.DTOs.Company;
 using MFO.CatalogService.Domain.Entities;
 
-namespace MFO.CatalogService.Application.Features.Companies.Commands.CreateCompanyCommand;
+namespace MFO.CatalogService.Application.Features.Companies.Commands.CreateCompany;
 
 public sealed record CreateCompanyCommand(CreateCompanyDto CreateCompanyDto) : IRequest<Result<GetCompanyDto>>;
 
