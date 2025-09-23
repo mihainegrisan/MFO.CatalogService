@@ -13,13 +13,9 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
             .NotEmpty().WithMessage("ProductId is required.");
 
         RuleFor(c => c.UpdateProductDto.Name)
-            .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.");
 
         RuleFor(c => c.UpdateProductDto.Description)
             .MaximumLength(DescriptionMaxLength).WithMessage($"Description must not exceed {DescriptionMaxLength} characters.");
-
-        RuleFor(c => c.UpdateProductDto.Price)
-            .NotEmpty().WithMessage("Price is required.");
     }
 }

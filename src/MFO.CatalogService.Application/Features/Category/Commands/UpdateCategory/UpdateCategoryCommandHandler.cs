@@ -29,9 +29,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
             return Result.Fail(new NotFoundError($"Category with ID {request.UpdateCategoryDto.CategoryId} was not found."));
         }
 
-        existingCategory.Name = request.UpdateCategoryDto.Name;
-        existingCategory.Code = request.UpdateCategoryDto.Code;
-
+        _mapper.Map(request.UpdateCategoryDto, existingCategory);
         existingCategory.LastModifiedBy = "system";
         existingCategory.LastModifiedDate = DateTime.UtcNow;
 

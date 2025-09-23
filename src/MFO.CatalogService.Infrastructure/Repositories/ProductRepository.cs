@@ -18,7 +18,7 @@ public class ProductRepository : IProductRepository
         => await _db.Products
             .FindAsync([id], cancellationToken);
 
-    public async Task<List<Product>> GetAllProductsAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Product>> GetAllProductsAsync(CancellationToken cancellationToken)
         => await _db.Products
             .AsNoTracking()
             .ToListAsync(cancellationToken);
@@ -37,16 +37,28 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task<Product> SetProductActiveStateAsync(Product product, bool isActive, CancellationToken cancellationToken)
+    public async Task<Product?> SetProductActiveStateAsync(Guid productId, bool isActive, CancellationToken cancellationToken)
     {
+        var product = await _db.Products.FindAsync([productId], cancellationToken);
+        if (product == null)
+        {
+            return null;
+        }
+
         product.IsActive = isActive;
         _db.Products.Update(product);
         await _db.SaveChangesAsync(cancellationToken);
         return product;
     }
 
-    public async Task<bool> DeleteProductAsync(Product product, CancellationToken cancellationToken)
+    public async Task<bool> DeleteProductAsync(Guid productId, CancellationToken cancellationToken)
     {
+        var product = await _db.Products.FindAsync([productId], cancellationToken);
+        if (product is null)
+        {
+            return false;
+        }
+
         _db.Products.Remove(product);
         await _db.SaveChangesAsync(cancellationToken);
         return true;

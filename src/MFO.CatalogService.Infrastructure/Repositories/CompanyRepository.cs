@@ -37,16 +37,28 @@ public class CompanyRepository : ICompanyRepository
         return company;
     }
 
-    public async Task<Company> SetCompanyActiveStateAsync(Company company, bool isActive, CancellationToken cancellationToken)
+    public async Task<Company?> SetCompanyActiveStateAsync(Guid companyId, bool isActive, CancellationToken cancellationToken)
     {
+        var company = await _db.Companies.FindAsync([companyId], cancellationToken);
+        if (company is null)
+        {
+            return null;
+        }
+
         company.IsActive = isActive;
         _db.Companies.Update(company);
         await _db.SaveChangesAsync(cancellationToken);
         return company;
     }
 
-    public async Task<bool> DeleteCompanyAsync(Company company, CancellationToken cancellationToken)
+    public async Task<bool> DeleteCompanyAsync(Guid companyId, CancellationToken cancellationToken)
     {
+        var company = await _db.Companies.FindAsync([companyId], cancellationToken);
+        if (company is null)
+        {
+            return false;
+        }
+
         _db.Companies.Remove(company);
         await _db.SaveChangesAsync(cancellationToken);
         return true;

@@ -1,7 +1,11 @@
+using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Mapping;
+using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
 using MFO.CatalogService.Infrastructure.Persistence;
+using MFO.CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,11 +36,27 @@ builder.Services.AddOpenApiDocument(options =>
     };
 });
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductByIdQueryHandler).Assembly));
+
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogContext")));
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("Service", "MFO.CatalogService")
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
@@ -58,4 +78,4 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

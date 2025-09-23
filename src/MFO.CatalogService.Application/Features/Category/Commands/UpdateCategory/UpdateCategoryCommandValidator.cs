@@ -13,11 +13,9 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
             .NotEmpty().WithMessage("CategoryId is required.");
 
         RuleFor(c => c.UpdateCategoryDto.Name)
-            .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.");
 
         RuleFor(c => c.UpdateCategoryDto.Code)
-            .NotEmpty().WithMessage("Code is required.")
             .MaximumLength(CodeMaxLength).WithMessage($"Code must not exceed {CodeMaxLength} characters.");
     }
 }

@@ -29,17 +29,14 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Res
             return Result.Fail(new NotFoundError($"Brand with ID {request.UpdateBrandDto.BrandId} was not found."));
         }
 
-        existingBrand.Name = request.UpdateBrandDto.Name;
-        existingBrand.Code = request.UpdateBrandDto.Code;
-        existingBrand.Description = request.UpdateBrandDto.Description;
-
+        _mapper.Map(request.UpdateBrandDto, existingBrand);
         existingBrand.LastModifiedBy = "system";
         existingBrand.LastModifiedDate = DateTime.UtcNow;
 
         var updatedBrand = await _brandRepository.UpdateBrandAsync(existingBrand, cancellationToken);
 
-        var categoryDto = _mapper.Map<GetBrandDto>(updatedBrand);
+        var brandDto = _mapper.Map<GetBrandDto>(updatedBrand);
 
-        return Result.Ok<GetBrandDto>(categoryDto);
+        return Result.Ok(brandDto);
     }
 }

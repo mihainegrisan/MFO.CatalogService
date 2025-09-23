@@ -17,7 +17,7 @@ public class BrandRepository : IBrandRepository
     public async Task<Brand?> GetBrandByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Brands.FindAsync([id], cancellationToken);
 
-    public async Task<List<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken)
         => await _db.Brands.ToListAsync(cancellationToken);
 
     public async Task<Brand> AddBrandAsync(Brand brand, CancellationToken cancellationToken)
@@ -34,8 +34,14 @@ public class BrandRepository : IBrandRepository
         return brand;
     }
 
-    public async Task<bool> DeleteBrandAsync(Brand brand, CancellationToken cancellationToken)
+    public async Task<bool> DeleteBrandAsync(Guid brandId, CancellationToken cancellationToken)
     {
+        var brand = await _db.Brands.FindAsync([brandId], cancellationToken);
+        if (brand is null)
+        {
+            return false;
+        }
+
         _db.Brands.Remove(brand);
         await _db.SaveChangesAsync(cancellationToken);
         return true;
