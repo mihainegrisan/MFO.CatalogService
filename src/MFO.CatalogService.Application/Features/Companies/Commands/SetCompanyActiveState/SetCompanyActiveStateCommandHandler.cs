@@ -9,7 +9,7 @@ namespace MFO.CatalogService.Application.Features.Companies.Commands.SetCompanyA
 
 public sealed record SetCompanyActiveStateCommand(Guid CompanyId, bool IsActive) : IRequest<Result<GetCompanyDto>>;
 
-public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyActiveStateCommand, Result<GetCompanyDto>
+public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyActiveStateCommand, Result<GetCompanyDto>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
