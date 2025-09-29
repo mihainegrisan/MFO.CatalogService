@@ -14,11 +14,9 @@ public class UpdateBrandCommandValidator : AbstractValidator<UpdateBrandCommand>
             .NotEmpty().WithMessage("BrandId is required.");
 
         RuleFor(c => c.UpdateBrandDto.Name)
-            .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.");
 
         RuleFor(c => c.UpdateBrandDto.Code)
-            .NotEmpty().WithMessage("Code is required.")
             .MaximumLength(CodeMaxLength).WithMessage($"Code must not exceed {CodeMaxLength} characters.");
 
         RuleFor(c => c.UpdateBrandDto.Description)
