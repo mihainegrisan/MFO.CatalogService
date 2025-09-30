@@ -1,3 +1,7 @@
+using Elastic.Channels;
+using Elastic.Ingest.Elasticsearch;
+using Elastic.Ingest.Elasticsearch.DataStreams;
+using Elastic.Serilog.Sinks;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
@@ -51,9 +55,36 @@ builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
+    .MinimumLevel.Information()
+
     .Enrich.FromLogContext()
     .Enrich.WithProperty("Service", "MFO.CatalogService")
     .WriteTo.Console()
+    //.WriteTo.File("logs/catalogservice-.log", rollingInterval: RollingInterval.Day)
+    .WriteTo.Elasticsearch(
+        [new Uri("http://localhost:9200")],        // ES endpoint(s)
+        opts =>
+        {
+            // Use a data stream (recommended). Structure: type, dataset, namespace.
+            // This will target a datastream like: logs-catalogservice-dev
+            opts.DataStream = new DataStreamName("logs", "catalogservice", "dev");
+
+            // How the sink should attempt bootstrap templates: None / Silent / Failure
+            // Silent = try but don't fail app if templates can't be installed.
+            opts.BootstrapMethod = BootstrapMethod.Silent;
+
+            // Optional: tune the in-memory channel (backpressure/batching). Keep defaults unless you need to tweak.
+            opts.ConfigureChannel = channelOptions =>
+            {
+                // set an empty BufferOptions (don't try to use properties that may have been removed)
+                channelOptions.BufferOptions = new BufferOptions();
+            };
+        },
+        transport =>
+        {
+            // if your ES has auth, configure transport here:
+            // transport.Authentication(new BasicAuthentication("user","pass"));
+        })
     .CreateLogger();
 
 builder.Host.UseSerilog();
