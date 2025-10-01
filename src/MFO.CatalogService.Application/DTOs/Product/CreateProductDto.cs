@@ -8,6 +8,8 @@ public sealed record CreateProductDto
 
     public required decimal Price { get; init; }
 
+    public required Guid CompanyId { get; init; }
+
     public required Guid CategoryId { get; init; }
 
     public required Guid BrandId { get; init; }

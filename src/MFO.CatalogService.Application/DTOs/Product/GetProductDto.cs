@@ -1,5 +1,6 @@
 ﻿using MFO.CatalogService.Application.DTOs.Brand;
 using MFO.CatalogService.Application.DTOs.Category;
+using MFO.CatalogService.Application.DTOs.Company;
 
 namespace MFO.CatalogService.Application.DTOs.Product;
 
@@ -16,6 +17,10 @@ public sealed record GetProductDto
     public required decimal Price { get; init; }
 
     public bool IsActive { get; init; }
+
+    // public Guid CompanyId { get; init; }
+
+    public GetCompanyDto Company { get; init; } = null!;
 
     // public Guid CategoryId { get; init; }
 
