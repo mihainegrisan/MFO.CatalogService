@@ -12,11 +12,13 @@ public sealed record CreateProductCommand(CreateProductDto CreateProductDto) : I
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<GetProductDto>>
 {
     private readonly IProductRepository _productRepository;
+    private readonly ISkuGenerator _skuGenerator;
     private readonly IMapper _mapper;
 
-    public CreateProductCommandHandler(IProductRepository productRepository, IMapper mapper)
+    public CreateProductCommandHandler(IProductRepository productRepository, ISkuGenerator skuGenerator, IMapper mapper)
     {
         _productRepository = productRepository;
+        _skuGenerator = skuGenerator;
         _mapper = mapper;
     }
 
@@ -24,6 +26,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     {
         var product = _mapper.Map<Product>(request.CreateProductDto);
         product.ProductId = Guid.CreateVersion7();
+        product.SKU = await _skuGenerator.GenerateSku(product.Company.Code, product.Category.Code, product.Brand.Code, cancellationToken);
         product.IsActive = true;
         product.CreatedBy = "system";
         product.CreatedDate = DateTime.UtcNow;
