@@ -24,6 +24,10 @@ public class CatalogDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Product>()
+            .Property(p => p.Price)
+            .HasPrecision(18, 4); // 18 digits, 4 after decimal
+
+        modelBuilder.Entity<Product>()
             .HasIndex(p => p.SKU)
             .IsUnique()
             .HasDatabaseName("IX_Product_SKU");
@@ -55,7 +59,7 @@ public class CatalogDbContext : DbContext
         });
     }
 
-    private void ConfigureFixedCode(EntityTypeBuilder<SkuSequence> entity, Expression<Func<SkuSequence, string>> property)
+    private static void ConfigureFixedCode(EntityTypeBuilder<SkuSequence> entity, Expression<Func<SkuSequence, string>> property)
     {
         entity.Property(property)
             .HasMaxLength(ValidationConstants.CodeLength)

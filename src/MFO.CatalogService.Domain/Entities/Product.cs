@@ -18,6 +18,10 @@ public class Product : AuditableEntity
 
     // public string[] ImageUrls { get; set; }
 
+    public Guid CompanyId { get; set; }
+
+    public Company Company { get; set; } = null!;
+
     public Guid CategoryId { get; set; }
 
     public Category Category { get; set; } = null!;

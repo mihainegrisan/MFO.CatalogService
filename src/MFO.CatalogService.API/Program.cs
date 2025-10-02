@@ -5,6 +5,7 @@ using Elastic.Serilog.Sinks;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
+using MFO.CatalogService.Application.Services;
 using MFO.CatalogService.Infrastructure.Persistence;
 using MFO.CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,9 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ISkuSequenceRepository, SkuSequenceRepository>();
+
+builder.Services.AddScoped<ISkuGenerator, SkuGenerator>();
 
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogContext")));
 
