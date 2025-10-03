@@ -2,6 +2,8 @@ using Elastic.Channels;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
+using MediatR;
+using MFO.CatalogService.API.Middlewares;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
@@ -44,6 +46,10 @@ builder.Services.AddOpenApiDocument(options =>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductByIdQueryHandler).Assembly));
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
+
+//builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>(ServiceLifetime.Transient);
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorMiddleware<,>));
 
 builder.Services.AddControllers();
 
