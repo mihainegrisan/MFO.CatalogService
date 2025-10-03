@@ -66,8 +66,11 @@ builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .MinimumLevel.Information()
-
     .Enrich.FromLogContext()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithMachineName()
+    .Enrich.WithProcessId()
+    .Enrich.WithThreadId()
     .Enrich.WithProperty("Service", "MFO.CatalogService")
     .WriteTo.Console()
     //.WriteTo.File("logs/catalogservice-.log", rollingInterval: RollingInterval.Day)
