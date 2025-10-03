@@ -2,6 +2,8 @@ using Elastic.Channels;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
+using MediatR;
+using MFO.CatalogService.API.Middlewares;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
@@ -45,6 +47,10 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetPr
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
 
+//builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>(ServiceLifetime.Transient);
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorMiddleware<,>));
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -60,8 +66,11 @@ builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .MinimumLevel.Information()
-
     .Enrich.FromLogContext()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithMachineName()
+    .Enrich.WithProcessId()
+    .Enrich.WithThreadId()
     .Enrich.WithProperty("Service", "MFO.CatalogService")
     .WriteTo.Console()
     //.WriteTo.File("logs/catalogservice-.log", rollingInterval: RollingInterval.Day)
