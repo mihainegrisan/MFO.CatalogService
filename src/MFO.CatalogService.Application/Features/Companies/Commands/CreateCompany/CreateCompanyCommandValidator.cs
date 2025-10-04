@@ -1,24 +1,21 @@
 ﻿using FluentValidation;
+using MFO.CatalogService.Application.Common;
 
 namespace MFO.CatalogService.Application.Features.Companies.Commands.CreateCompany;
 
 public class CreateCompanyCommandValidator : AbstractValidator<CreateCompanyCommand>
 {
-    private const int NameMaxLength = 50;
-    private const int DescriptionMaxLength = 500;
-    private const int CodeMaxLength = 10;
-
     public CreateCompanyCommandValidator()
     {
         RuleFor(c => c.CreateCompanyDto.Name)
             .NotEmpty().WithMessage("Name is required.")
-            .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.");
+            .MaximumLength(ValidationConstants.NameMaxLength).WithMessage($"Name must not exceed {ValidationConstants.NameMaxLength} characters.");
 
         RuleFor(c => c.CreateCompanyDto.Code)
             .NotEmpty().WithMessage("Code is required.")
-            .MaximumLength(CodeMaxLength).WithMessage($"Code must not exceed {CodeMaxLength} characters.");
+            .Length(ValidationConstants.CodeLength).WithMessage($"Code must have exactly {ValidationConstants.CodeLength} characters.");
 
         RuleFor(c => c.CreateCompanyDto.Description)
-            .MaximumLength(DescriptionMaxLength).WithMessage($"Description must not exceed {DescriptionMaxLength} characters.");
+            .MaximumLength(ValidationConstants.DescriptionMaxLength).WithMessage($"Description must not exceed {ValidationConstants.DescriptionMaxLength} characters.");
     }
 }
