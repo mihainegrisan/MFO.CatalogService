@@ -35,8 +35,8 @@ public class SkuGeneratorTests
 
         // Assert
         await _skuSequenceRepository
-            .GetNextNumberForSkuAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Received(1);
+            .Received(1)
+            .GetNextNumberForSkuAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
 
         Assert.That(sku, Is.EqualTo("QQQQ1-WWWW1-EEEE1-00001"));
     }
@@ -94,8 +94,8 @@ public class SkuGeneratorTests
 
         // Assert
         await _skuSequenceRepository
-            .GetNextNumberForSkuAsync(CompanyCode, CategoryCode, BrandCode, Arg.Any<CancellationToken>())
-            .Received(1);
+            .Received(1)
+            .GetNextNumberForSkuAsync(CompanyCode, CategoryCode, BrandCode, Arg.Any<CancellationToken>());
     }
 
     [Test]
