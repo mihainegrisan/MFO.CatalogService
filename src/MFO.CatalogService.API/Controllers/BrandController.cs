@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MFO.CatalogService.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/catalog/[controller]")]
 public class BrandController : ControllerBase
 {
     private readonly ILogger<BrandController> _logger;
