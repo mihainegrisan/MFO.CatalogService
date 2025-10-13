@@ -1,4 +1,4 @@
-﻿namespace MFO.CatalogService.Application.Common.Interfaces;
+﻿namespace MFO.CatalogService.Application.Common.Interfaces.Repositories;
 
 public interface ISkuSequenceRepository
 {
