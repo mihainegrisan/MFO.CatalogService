@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentResults;
 using MediatR;
-using MFO.CatalogService.Application.Common.Interfaces;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Application.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Commands.CreateCategory;

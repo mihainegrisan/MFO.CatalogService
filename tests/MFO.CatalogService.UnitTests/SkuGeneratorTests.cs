@@ -1,4 +1,4 @@
-﻿using MFO.CatalogService.Application.Common.Interfaces;
+﻿using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Application.Services;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
