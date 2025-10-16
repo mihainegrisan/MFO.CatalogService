@@ -1,4 +1,4 @@
-﻿using MFO.CatalogService.Application.Common.Interfaces;
+﻿using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Domain.Entities;
 using MFO.CatalogService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

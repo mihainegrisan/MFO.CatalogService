@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FluentResults;
 using MediatR;
-using MFO.CatalogService.Application.Common.Interfaces;
-using MFO.CatalogService.Application.DTOs.Category;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Domain.Errors;
+using MFO.Contracts.Catalog.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Commands.UpdateCategory;
 

@@ -1,6 +1,6 @@
 ﻿using MFO.CatalogService.Domain.Entities;
 
-namespace MFO.CatalogService.Application.Common.Interfaces;
+namespace MFO.CatalogService.Application.Common.Interfaces.Repositories;
 
 public interface ICategoryRepository
 {

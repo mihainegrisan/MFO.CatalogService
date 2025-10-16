@@ -5,6 +5,7 @@ using Elastic.Serilog.Sinks;
 using MediatR;
 using MFO.CatalogService.API.Middlewares;
 using MFO.CatalogService.Application.Common.Interfaces;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Application.Common.Mapping;
 using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
 using MFO.CatalogService.Application.Services;

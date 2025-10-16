@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: ["*"]   # run on pushes to any branch
+    branches: ["*"]
   pull_request:
-    branches: ["main"] # run on PRs targeting main
+    branches: ["main"]
 
 jobs:
   build:
@@ -19,10 +19,24 @@ jobs:
         with:
           dotnet-version: "9.0"
 
+      - name: Authenticate to GitHub Packages
+        run: |
+          # Remove old/incorrect source if exists
+          dotnet nuget remove source github || echo "No existing feed"
+          
+          # Add correct feed with PAT
+          dotnet nuget add source "https://nuget.pkg.github.com/mihainegrisan/index.json" \
+            --name github \
+            --username ${{ github.repository_owner }} \
+            --password ${{ secrets.NUGETPUBLISHTOKEN  }} \
+            --store-password-in-clear-text \
+            --valid-authentication-types basic
+
+      - name: List NuGet sources
+        run: dotnet nuget list source
+
       - name: Restore dependencies
         run: dotnet restore MFO.CatalogService.sln
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         run: dotnet build MFO.CatalogService.sln --no-restore --configuration Release

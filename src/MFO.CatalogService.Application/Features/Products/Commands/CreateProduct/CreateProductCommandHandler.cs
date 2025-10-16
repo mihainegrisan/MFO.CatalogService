@@ -2,7 +2,8 @@
 using FluentResults;
 using MediatR;
 using MFO.CatalogService.Application.Common.Interfaces;
-using MFO.CatalogService.Application.DTOs.Product;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
+using MFO.Contracts.Catalog.DTOs.Product;
 using MFO.CatalogService.Domain.Entities;
 
 namespace MFO.CatalogService.Application.Features.Products.Commands.CreateProduct;

@@ -1,4 +1,5 @@
 ﻿using MFO.CatalogService.Application.Common.Interfaces;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 
 namespace MFO.CatalogService.Application.Services;
 

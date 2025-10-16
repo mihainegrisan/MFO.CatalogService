@@ -1,4 +1,5 @@
 ﻿using MFO.CatalogService.Application.Common.Interfaces;
+using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Domain.Entities;
 using MFO.CatalogService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ public class ProductRepository : IProductRepository
     {
         _db = db;
     }
-
+    
     public async Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Products
             .FindAsync([id], cancellationToken);
