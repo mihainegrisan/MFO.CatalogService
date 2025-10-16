@@ -28,7 +28,7 @@ jobs:
           dotnet nuget add source "https://nuget.pkg.github.com/mihainegrisan/index.json" \
             --name github \
             --username ${{ github.repository_owner }} \
-            --password ${{ secrets.NuGetPublishToken }} \
+            --password ${{ secrets.NUGETPUBLISHTOKEN  }} \
             --store-password-in-clear-text \
             --valid-authentication-types basic
 
