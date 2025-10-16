@@ -19,16 +19,16 @@ jobs:
         with:
           dotnet-version: "9.0"
 
-      - name: Remove existing GitHub Packages feed
-        run: |
-          dotnet nuget remove source github || echo "No existing feed"
-
       - name: Authenticate to GitHub Packages
         run: |
+          # Remove old/incorrect source if exists
+          dotnet nuget remove source github || echo "No existing feed"
+          
+          # Add correct feed with PAT
           dotnet nuget add source "https://nuget.pkg.github.com/mihainegrisan/index.json" \
             --name github \
-            --username mihainegrisan \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username ${{ github.repository_owner }} \
+            --password ${{ secrets.NuGetPublishToken }} \
             --store-password-in-clear-text \
             --valid-authentication-types basic
 
