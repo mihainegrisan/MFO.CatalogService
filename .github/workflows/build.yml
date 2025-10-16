@@ -19,6 +19,8 @@ jobs:
         with:
           dotnet-version: "9.0"
           source-url: https://nuget.pkg.github.com/mihainegrisan/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Restore dependencies
         run: dotnet restore MFO.CatalogService.sln
