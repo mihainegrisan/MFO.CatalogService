@@ -2,7 +2,7 @@
 using FluentResults;
 using MediatR;
 using MFO.CatalogService.Application.Common.Interfaces.Repositories;
-using MFO.CatalogService.Application.DTOs.Category;
+using MFO.Contracts.Catalog.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Commands.CreateCategory;
 

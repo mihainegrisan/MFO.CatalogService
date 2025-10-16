@@ -2,8 +2,8 @@
 using FluentResults;
 using MediatR;
 using MFO.CatalogService.Application.Common.Interfaces.Repositories;
-using MFO.CatalogService.Application.DTOs.Brand;
 using MFO.CatalogService.Domain.Errors;
+using MFO.Contracts.Catalog.DTOs.Brand;
 
 namespace MFO.CatalogService.Application.Features.Brand.Queries.GetBrandById;
 

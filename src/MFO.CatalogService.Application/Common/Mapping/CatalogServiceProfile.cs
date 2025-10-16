@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using MFO.CatalogService.Application.DTOs.Brand;
-using MFO.CatalogService.Application.DTOs.Category;
-using MFO.CatalogService.Application.DTOs.Company;
-using MFO.CatalogService.Application.DTOs.Product;
 using MFO.CatalogService.Domain.Entities;
+using MFO.Contracts.Catalog.DTOs.Brand;
+using MFO.Contracts.Catalog.DTOs.Category;
+using MFO.Contracts.Catalog.DTOs.Company;
+using MFO.Contracts.Catalog.DTOs.Product;
 
 namespace MFO.CatalogService.Application.Common.Mapping;
 

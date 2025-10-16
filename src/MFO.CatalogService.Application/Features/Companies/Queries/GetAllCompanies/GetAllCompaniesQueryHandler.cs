@@ -2,7 +2,7 @@
 using FluentResults;
 using MediatR;
 using MFO.CatalogService.Application.Common.Interfaces.Repositories;
-using MFO.CatalogService.Application.DTOs.Company;
+using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Queries.GetAllCompanies;
 
