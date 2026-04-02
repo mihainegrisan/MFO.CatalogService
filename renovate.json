@@ -6,6 +6,7 @@
   "packageRules": [
     {
       "matchDatasources": [ "nuget" ],
+      "matchPackagePatterns": [ "^MFO\\." ],
       "registryUrls": [ "https://nuget.pkg.github.com/mihainegrisan/index.json" ]
     }
   ]
