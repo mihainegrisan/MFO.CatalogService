@@ -1,4 +1,5 @@
 ﻿using MFO.CatalogService.Application.Common;
+using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace MFO.CatalogService.Infrastructure.Persistence;
 
-public class CatalogDbContext : DbContext
+public class CatalogDbContext : AuditableDbContextBase
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
@@ -14,24 +15,36 @@ public class CatalogDbContext : DbContext
     public DbSet<Company> Companies { get; set; }
     public DbSet<SkuSequence> SkuSequences { get; set; }
 
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options)
+    public CatalogDbContext(
+        DbContextOptions<CatalogDbContext> options,
+        IDateTimeProvider dateTimeProvider,
+        IUserContextProvider userContextProvider) 
+        : base(options, dateTimeProvider, userContextProvider)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Product>()
-            .Property(p => p.Price)
-            .HasPrecision(18, 4); // 18 digits, 4 after decimal
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(e => e.ProductId);
 
-        modelBuilder.Entity<Product>()
-            .HasIndex(p => p.SKU)
-            .IsUnique()
-            .HasDatabaseName("IX_Product_SKU");
+            entity
+                .Property(e => e.ProductId)
+                .ValueGeneratedNever(); // Because we generate it in code
 
+            entity
+                .Property(p => p.Price)
+                .HasPrecision(18, 4); // 18 digits, 4 after decimal
+
+            entity
+                .HasIndex(p => p.SKU)
+                .IsUnique()
+                .HasDatabaseName("IX_Product_SKU");
+        });
+        
         modelBuilder.Entity<Category>()
             .HasIndex(c => c.Name)
             .IsUnique()

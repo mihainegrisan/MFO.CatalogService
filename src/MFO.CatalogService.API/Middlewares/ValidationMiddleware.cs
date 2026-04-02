@@ -4,13 +4,13 @@ using MediatR;
 
 namespace MFO.CatalogService.API.Middlewares;
 
-public class ValidationBehaviorMiddleware<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidationMiddleware<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
     where TResponse : ResultBase, new()
-    where TRequest : notnull
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidationBehaviorMiddleware(IEnumerable<IValidator<TRequest>> validators)
+    public ValidationMiddleware(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }
@@ -26,14 +26,14 @@ public class ValidationBehaviorMiddleware<TRequest, TResponse> : IPipelineBehavi
 
         var failures = validationResults
             .SelectMany(r => r.Errors)
-            .Where(f => f != null)
+            .Where(f => f is not null)
+            .Select(f => new Error(f.ErrorMessage))
             .ToList();
 
         if (failures.Count != 0)
         {
             var result = new TResponse();
-            foreach (var failure in failures)
-                result.Reasons.Add(new Error(failure.ErrorMessage));
+            result.Reasons.AddRange(failures);
 
             return result;
         }
