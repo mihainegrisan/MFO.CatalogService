@@ -2,15 +2,16 @@ using Elastic.Channels;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
-using MediatR;
+using FluentValidation;
 using MFO.CatalogService.API.Middlewares;
+using MFO.CatalogService.Application;
 using MFO.CatalogService.Application.Common.Interfaces;
 using MFO.CatalogService.Application.Common.Interfaces.Repositories;
 using MFO.CatalogService.Application.Common.Mapping;
-using MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
 using MFO.CatalogService.Application.Services;
 using MFO.CatalogService.Infrastructure.Persistence;
 using MFO.CatalogService.Infrastructure.Repositories;
+using MFO.CatalogService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using Serilog;
@@ -44,25 +45,35 @@ builder.Services.AddOpenApiDocument(options =>
     };
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductByIdQueryHandler).Assembly));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly);
+
+    // Add to the pipeline.
+    cfg.AddOpenBehavior(typeof(ValidationMiddleware<,>));
+});
+
+builder.Services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new CatalogServiceProfile()));
 
-//builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>(ServiceLifetime.Transient);
-
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorMiddleware<,>));
 
 builder.Services.AddControllers();
 
+// Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<ISkuSequenceRepository, SkuSequenceRepository>();
 
+// Services
+builder.Services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+builder.Services.AddScoped<IUserContextProvider, UserContextProvider>();
+builder.Services.AddScoped<ISkuSequenceRepository, SkuSequenceRepository>();
 builder.Services.AddScoped<ISkuGenerator, SkuGenerator>();
 
-builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogContext")));
+
+builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDbContext")));
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)

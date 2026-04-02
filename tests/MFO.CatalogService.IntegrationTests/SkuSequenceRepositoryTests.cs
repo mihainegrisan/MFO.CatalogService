@@ -2,6 +2,7 @@
 using MFO.CatalogService.Domain.Entities;
 using MFO.CatalogService.Infrastructure.Persistence;
 using MFO.CatalogService.Infrastructure.Repositories;
+using MFO.CatalogService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace MFO.CatalogService.IntegrationTests;
@@ -23,7 +24,10 @@ public class SkuSequenceRepositoryTests
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // unique DB per test
             .Options;
 
-        _dbContext = new CatalogDbContext(options);
+        var dateTimeProvider = new DateTimeProvider();
+        var userContextProvider = new UserContextProvider();
+
+        _dbContext = new CatalogDbContext(options, dateTimeProvider, userContextProvider);
         _skuSequenceRepository = new SkuSequenceRepository(_dbContext);
     }
 

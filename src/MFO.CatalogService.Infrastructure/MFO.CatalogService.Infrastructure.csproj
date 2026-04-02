@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MFO.CatalogService.Application\MFO.CatalogService.Application.csproj" />
-    <ProjectReference Include="..\MFO.CatalogService.Domain\MFO.CatalogService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
