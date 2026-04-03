@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Queries.GetCompanyById;
 
-public sealed record GetCompanyByIdQuery(Guid CompanyId) : IRequest<Result<GetCompanyDto>>;
+public sealed record GetCompanyByIdQuery(Guid CompanyId) : IRequest<Result<CompanyDto>>;
 
-public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, Result<GetCompanyDto>>
+public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, Result<CompanyDto>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, R
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCompanyDto>> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CompanyDto>> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetCompanyByIdAsync(request.CompanyId, cancellationToken);
         if (company is null)
@@ -28,7 +28,7 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, R
             return Result.Fail(new NotFoundError($"Company with ID {request.CompanyId} not found."));
         }
 
-        var companyDto = _mapper.Map<GetCompanyDto>(company);
+        var companyDto = _mapper.Map<CompanyDto>(company);
 
         return Result.Ok(companyDto);
     }

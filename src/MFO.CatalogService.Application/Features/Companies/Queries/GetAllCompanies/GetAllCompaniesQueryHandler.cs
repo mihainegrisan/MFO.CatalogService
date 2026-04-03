@@ -6,9 +6,9 @@ using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Queries.GetAllCompanies;
 
-public sealed record GetAllCompaniesQuery : IRequest<Result<IReadOnlyList<GetCompanyDto>>>;
+public sealed record GetAllCompaniesQuery : IRequest<Result<IReadOnlyList<CompanyDto>>>;
 
-public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery, Result<IReadOnlyList<GetCompanyDto>>>
+public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery, Result<IReadOnlyList<CompanyDto>>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -19,19 +19,19 @@ public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery,
         _mapper = mapper;
     }
 
-    public async Task<Result<IReadOnlyList<GetCompanyDto>>> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IReadOnlyList<CompanyDto>>> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
     {
         var companies = await _companyRepository.GetAllCompaniesAsync(cancellationToken);
         if (companies.Count == 0)
         {
-            return Result.Ok<IReadOnlyList<GetCompanyDto>>(new List<GetCompanyDto>());
+            return Result.Ok<IReadOnlyList<CompanyDto>>(new List<CompanyDto>());
         }
 
         var companyDtos = companies
-            .Select(c => _mapper.Map<GetCompanyDto>(c))
+            .Select(c => _mapper.Map<CompanyDto>(c))
             .ToList();
 
-        return Result.Ok<IReadOnlyList<GetCompanyDto>>(companyDtos);
+        return Result.Ok<IReadOnlyList<CompanyDto>>(companyDtos);
 
     }
 }

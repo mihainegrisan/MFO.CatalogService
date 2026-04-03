@@ -7,9 +7,9 @@ using MFO.CatalogService.Domain.Errors;
 
 namespace MFO.CatalogService.Application.Features.Products.Commands.SetProductActiveState;
 
-public sealed record SetProductActiveStateCommand(Guid ProductId, bool IsActive) : IRequest<Result<GetProductDto>>;
+public sealed record SetProductActiveStateCommand(Guid ProductId, bool IsActive) : IRequest<Result<ProductDto>>;
 
-public class SetProductActiveStateCommandHandler : IRequestHandler<SetProductActiveStateCommand, Result<GetProductDto>>
+public class SetProductActiveStateCommandHandler : IRequestHandler<SetProductActiveStateCommand, Result<ProductDto>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class SetProductActiveStateCommandHandler : IRequestHandler<SetProductAct
         _mapper = mapper;
     }
 
-    public async Task<Result<GetProductDto>> Handle(SetProductActiveStateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(SetProductActiveStateCommand request, CancellationToken cancellationToken)
     {
         var product = await _productRepository.SetProductActiveStateAsync(request.ProductId, request.IsActive, cancellationToken);
 
@@ -29,7 +29,7 @@ public class SetProductActiveStateCommandHandler : IRequestHandler<SetProductAct
             return Result.Fail(new NotFoundError($"Product with ID {request.ProductId} was not found."));
         }
 
-        var productDto = _mapper.Map<GetProductDto>(product);
+        var productDto = _mapper.Map<ProductDto>(product);
 
         return Result.Ok(productDto);
     }

@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Commands.UpdateCompany;
 
-public sealed record UpdateCompanyCommand(UpdateCompanyDto UpdateCompanyDto) : IRequest<Result<GetCompanyDto>>;
+public sealed record UpdateCompanyCommand(UpdateCompanyDto UpdateCompanyDto) : IRequest<Result<CompanyDto>>;
 
-public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand, Result<GetCompanyDto>>
+public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand, Result<CompanyDto>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand,
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCompanyDto>> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CompanyDto>> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
         var existingCompany = await _companyRepository.GetCompanyByIdAsync(request.UpdateCompanyDto.CompanyId, cancellationToken);
 
@@ -35,7 +35,7 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand,
 
         await _companyRepository.UpdateCompanyAsync(existingCompany, cancellationToken);
 
-        var companyDto = _mapper.Map<GetCompanyDto>(existingCompany);
+        var companyDto = _mapper.Map<CompanyDto>(existingCompany);
 
         return Result.Ok(companyDto);
     }

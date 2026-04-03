@@ -8,9 +8,9 @@ using MFO.CatalogService.Domain.Entities;
 
 namespace MFO.CatalogService.Application.Features.Products.Commands.CreateProduct;
 
-public sealed record CreateProductCommand(CreateProductDto CreateProductDto) : IRequest<Result<GetProductDto>>;
+public sealed record CreateProductCommand(CreateProductDto CreateProductDto) : IRequest<Result<ProductDto>>;
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<GetProductDto>>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<ProductDto>>
 {
     private readonly IProductRepository _productRepository;
     private readonly ISkuGenerator _skuGenerator;
@@ -23,7 +23,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         _mapper = mapper;
     }
 
-    public async Task<Result<GetProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = _mapper.Map<Product>(request.CreateProductDto);
         product.ProductId = Guid.CreateVersion7();
@@ -36,7 +36,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
         await _productRepository.AddProductAsync(product, cancellationToken);
 
-        var productDto = _mapper.Map<GetProductDto>(product);
+        var productDto = _mapper.Map<ProductDto>(product);
 
         return Result.Ok(productDto);
     }

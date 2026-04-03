@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Brand;
 
 namespace MFO.CatalogService.Application.Features.Brand.Queries.GetBrandById;
 
-public sealed record GetBrandByIdQuery(Guid Id) : IRequest<Result<GetBrandDto>>;
+public sealed record GetBrandByIdQuery(Guid Id) : IRequest<Result<BrandDto>>;
 
-public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Result<GetBrandDto>>
+public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Result<BrandDto>>
 {
     private readonly IBrandRepository _brandRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Resul
         _mapper = mapper;
     }
 
-    public async Task<Result<GetBrandDto>> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<BrandDto>> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
     {
         var brand = await _brandRepository.GetBrandByIdAsync(request.Id, cancellationToken);
         if (brand is null)
@@ -28,7 +28,7 @@ public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Resul
             return Result.Fail(new NotFoundError($"Brand with ID {request.Id} not found."));
         }
 
-        var brandDto = _mapper.Map<GetBrandDto>(brand);
+        var brandDto = _mapper.Map<BrandDto>(brand);
 
         return Result.Ok(brandDto);
     }

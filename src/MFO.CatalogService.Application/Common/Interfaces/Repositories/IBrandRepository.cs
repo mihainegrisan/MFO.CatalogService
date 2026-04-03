@@ -4,7 +4,7 @@ namespace MFO.CatalogService.Application.Common.Interfaces.Repositories;
 
 public interface IBrandRepository
 {
-    Task<Brand?> GetBrandByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<Brand?> GetBrandByIdAsync(Guid? id, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Brand>> GetAllBrandsAsync(CancellationToken cancellationToken);
 

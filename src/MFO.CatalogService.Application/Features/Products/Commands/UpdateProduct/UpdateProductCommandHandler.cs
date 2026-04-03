@@ -7,9 +7,9 @@ using MFO.CatalogService.Domain.Errors;
 
 namespace MFO.CatalogService.Application.Features.Products.Commands.UpdateProduct;
 
-public sealed record UpdateProductCommand(UpdateProductDto UpdateProductDto) : IRequest<Result<GetProductDto>>;
+public sealed record UpdateProductCommand(UpdateProductDto UpdateProductDto) : IRequest<Result<ProductDto>>;
 
-public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result<GetProductDto>>
+public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result<ProductDto>>
 {
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
@@ -24,7 +24,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         _mapper = mapper;
     }
 
-    public async Task<Result<GetProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var existingProduct = await _productRepository.GetProductByIdAsync(request.UpdateProductDto.ProductId, cancellationToken);
 
@@ -36,7 +36,6 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         _mapper.Map(request.UpdateProductDto, existingProduct);
 
         // TODO: Extract into a validation service
-
         var category = await _categoryRepository.GetCategoryByIdAsync(request.UpdateProductDto.CategoryId, cancellationToken);
         if (category is null)
         {
@@ -58,7 +57,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
         var updatedProduct = await _productRepository.UpdateProductAsync(existingProduct, cancellationToken);
 
-        var productDto = _mapper.Map<GetProductDto>(updatedProduct);
+        var productDto = _mapper.Map<ProductDto>(updatedProduct);
 
         return Result.Ok(productDto);
     }

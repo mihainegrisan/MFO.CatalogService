@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Commands.UpdateCategory;
 
-public sealed record UpdateCategoryCommand(UpdateCategoryDto UpdateCategoryDto) : IRequest<Result<GetCategoryDto>>;
+public sealed record UpdateCategoryCommand(UpdateCategoryDto UpdateCategoryDto) : IRequest<Result<CategoryDto>>;
 
-public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Result<GetCategoryDto>>
+public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Result<CategoryDto>>
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCategoryDto>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var existingCategory = await _categoryRepository.GetCategoryByIdAsync(request.UpdateCategoryDto.CategoryId, cancellationToken);
 
@@ -35,7 +35,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
         var updatedProduct = await _categoryRepository.UpdateCategoryAsync(existingCategory, cancellationToken);
 
-        var categoryDto = _mapper.Map<GetCategoryDto>(updatedProduct);
+        var categoryDto = _mapper.Map<CategoryDto>(updatedProduct);
 
         return Result.Ok(categoryDto);
     }

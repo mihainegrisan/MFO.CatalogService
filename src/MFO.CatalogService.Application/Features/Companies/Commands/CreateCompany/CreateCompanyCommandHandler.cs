@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Commands.CreateCompany;
 
-public sealed record CreateCompanyCommand(CreateCompanyDto CreateCompanyDto) : IRequest<Result<GetCompanyDto>>;
+public sealed record CreateCompanyCommand(CreateCompanyDto CreateCompanyDto) : IRequest<Result<CompanyDto>>;
 
-public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, Result<GetCompanyDto>>
+public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, Result<CompanyDto>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCompanyDto>> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CompanyDto>> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
     {
         var company = _mapper.Map<Company>(request.CreateCompanyDto);
         company.CompanyId = Guid.CreateVersion7();
@@ -32,7 +32,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,
 
         await _companyRepository.AddCompanyAsync(company, cancellationToken);
 
-        var companyDto = _mapper.Map<GetCompanyDto>(company);
+        var companyDto = _mapper.Map<CompanyDto>(company);
 
         return Result.Ok(companyDto);
     }

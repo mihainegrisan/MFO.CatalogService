@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Queries.GetCategoryById;
 
-public sealed record GetCategoryByIdQuery(Guid Id) : IRequest<Result<GetCategoryDto>>;
+public sealed record GetCategoryByIdQuery(Guid Id) : IRequest<Result<CategoryDto>>;
 
-public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, Result<GetCategoryDto>>
+public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, Result<CategoryDto>>
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var category = await _categoryRepository.GetCategoryByIdAsync(request.Id, cancellationToken);
         if (category is null)
@@ -28,7 +28,7 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
             return Result.Fail(new NotFoundError($"Category with ID {request.Id} not found."));
         }
 
-        var categoryDto = _mapper.Map<GetCategoryDto>(category);
+        var categoryDto = _mapper.Map<CategoryDto>(category);
 
         return Result.Ok(categoryDto);
     }
