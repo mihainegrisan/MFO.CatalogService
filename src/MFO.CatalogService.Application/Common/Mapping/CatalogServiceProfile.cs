@@ -12,10 +12,10 @@ public class CatalogServiceProfile : Profile
     public CatalogServiceProfile()
     {
         // Entity → DTO
-        CreateMap<Product, GetProductDto>();
-        CreateMap<Category, GetCategoryDto>();
-        CreateMap<Brand, GetBrandDto>();
-        CreateMap<Company, GetCompanyDto>();
+        CreateMap<Product, ProductDto>();
+        CreateMap<Category, CategoryDto>();
+        CreateMap<Brand, BrandDto>();
+        CreateMap<Company, CompanyDto>();
 
         // DTO → Entity(for create / update)
         CreateMap<CreateProductDto, Product>();

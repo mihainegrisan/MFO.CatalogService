@@ -7,9 +7,9 @@ using MFO.CatalogService.Domain.Errors;
 
 namespace MFO.CatalogService.Application.Features.Products.Queries.GetProductById;
 
-public sealed record GetProductByIdQuery(Guid Id) : IRequest<Result<GetProductDto>>;
+public sealed record GetProductByIdQuery(Guid Id) : IRequest<Result<ProductDto>>;
 
-public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<GetProductDto>>
+public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductDto>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
         _mapper = mapper;
     }
 
-    public async Task<Result<GetProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await _productRepository.GetProductByIdAsync(request.Id, cancellationToken);
         if (product is null)
@@ -28,7 +28,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
             return Result.Fail(new NotFoundError($"Product with ID {request.Id} not found."));
         }
 
-        var productDto = _mapper.Map<GetProductDto>(product);
+        var productDto = _mapper.Map<ProductDto>(product);
 
         return Result.Ok(productDto);
     }

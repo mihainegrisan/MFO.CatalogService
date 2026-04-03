@@ -6,9 +6,9 @@ using MFO.Contracts.Catalog.DTOs.Category;
 
 namespace MFO.CatalogService.Application.Features.Category.Commands.CreateCategory;
 
-public sealed record CreateCategoryCommand(CreateCategoryDto CreateCategoryDto) : IRequest<Result<GetCategoryDto>>;
+public sealed record CreateCategoryCommand(CreateCategoryDto CreateCategoryDto) : IRequest<Result<CategoryDto>>;
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<GetCategoryDto>>
+public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<CategoryDto>>
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
@@ -19,12 +19,12 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var exists = await _categoryRepository.ExistsByNameAsync(request.CreateCategoryDto.Name, cancellationToken);
         if (exists)
         {
-            return Result.Fail<GetCategoryDto>($"The category name {request.CreateCategoryDto.Name} already exists.");
+            return Result.Fail<CategoryDto>($"The category name {request.CreateCategoryDto.Name} already exists.");
         }
 
         var category = _mapper.Map<Domain.Entities.Category>(request.CreateCategoryDto);
@@ -36,7 +36,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
         await _categoryRepository.AddCategoryAsync(category, cancellationToken);
 
-        var categoryDto = _mapper.Map<GetCategoryDto>(category);
+        var categoryDto = _mapper.Map<CategoryDto>(category);
 
         return Result.Ok(categoryDto);
     }

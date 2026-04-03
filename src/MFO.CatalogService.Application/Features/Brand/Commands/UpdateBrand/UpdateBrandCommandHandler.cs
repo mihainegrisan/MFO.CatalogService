@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Brand;
 
 namespace MFO.CatalogService.Application.Features.Brand.Commands.UpdateBrand;
 
-public sealed record UpdateBrandCommand(UpdateBrandDto UpdateBrandDto) : IRequest<Result<GetBrandDto>>;
+public sealed record UpdateBrandCommand(UpdateBrandDto UpdateBrandDto) : IRequest<Result<BrandDto>>;
 
-public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Result<GetBrandDto>>
+public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Result<BrandDto>>
 {
     private readonly IBrandRepository _brandRepository;
     private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Res
     }
 
 
-    public async Task<Result<GetBrandDto>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
+    public async Task<Result<BrandDto>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {
         var existingBrand = await _brandRepository.GetBrandByIdAsync(request.UpdateBrandDto.BrandId, cancellationToken);
         if (existingBrand is null)
@@ -35,7 +35,7 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Res
 
         var updatedBrand = await _brandRepository.UpdateBrandAsync(existingBrand, cancellationToken);
 
-        var brandDto = _mapper.Map<GetBrandDto>(updatedBrand);
+        var brandDto = _mapper.Map<BrandDto>(updatedBrand);
 
         return Result.Ok(brandDto);
     }

@@ -7,9 +7,9 @@ using MFO.Contracts.Catalog.DTOs.Company;
 
 namespace MFO.CatalogService.Application.Features.Companies.Commands.SetCompanyActiveState;
 
-public sealed record SetCompanyActiveStateCommand(Guid CompanyId, bool IsActive) : IRequest<Result<GetCompanyDto>>;
+public sealed record SetCompanyActiveStateCommand(Guid CompanyId, bool IsActive) : IRequest<Result<CompanyDto>>;
 
-public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyActiveStateCommand, Result<GetCompanyDto>>
+public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyActiveStateCommand, Result<CompanyDto>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyAct
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCompanyDto>> Handle(SetCompanyActiveStateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CompanyDto>> Handle(SetCompanyActiveStateCommand request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.SetCompanyActiveStateAsync(request.CompanyId, request.IsActive, cancellationToken);
         if (company is null)
@@ -28,7 +28,7 @@ public class SetCompanyActiveStateCommandHandler : IRequestHandler<SetCompanyAct
             return Result.Fail(new NotFoundError($"Company with ID {request.CompanyId} was not found."));
         }
 
-        var companyDto = _mapper.Map<GetCompanyDto>(company);
+        var companyDto = _mapper.Map<CompanyDto>(company);
 
         return Result.Ok(companyDto);
     }
