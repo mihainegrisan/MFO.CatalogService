@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MFO.CatalogService.Infrastructure\MFO.CatalogService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\MFO.CatalogService.ServiceDefaults\MFO.CatalogService.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

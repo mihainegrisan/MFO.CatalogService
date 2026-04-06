@@ -18,6 +18,9 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Aspire ServiceDefaults for observability and resilience
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -115,6 +118,9 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 var app = builder.Build();
+
+// Map Aspire ServiceDefaults endpoints
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
