@@ -76,7 +76,12 @@ builder.Services.AddScoped<ISkuSequenceRepository, SkuSequenceRepository>();
 builder.Services.AddScoped<ISkuGenerator, SkuGenerator>();
 
 
-builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDbContext")));
+// builder.AddSqlServerDbContext<CatalogDbContext>(connectionName: "CatalogDB");
+// The normal Aspire registration above doesn't work because I'm injecting a scoped (or request specific) service (IUserContextProvider) into a pooled DbContext. 
+// Microsoft’s docs explicitly warn that with pooling, scoped services injected into the context are only resolved once from the initial scope,
+// and pooling should only be used when the context configuration/state does not vary between uses.
+builder.Services.AddDbContext<CatalogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDb")));
+
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
