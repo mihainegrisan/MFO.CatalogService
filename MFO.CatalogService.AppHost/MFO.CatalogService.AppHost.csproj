@@ -1,11 +1,11 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.2.1">
+<Project Sdk="Aspire.AppHost.Sdk/13.2.2">
 
   <ItemGroup>
     <ProjectReference Include="..\src\MFO.CatalogService.API\MFO.CatalogService.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.SqlServer" Version="13.2.1" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="13.2.2" />
   </ItemGroup>
 
   <PropertyGroup>
